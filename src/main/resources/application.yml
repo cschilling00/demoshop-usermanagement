@@ -1,0 +1,23 @@
+graphql:
+  packages: "src.main.com.novatec.graphql.usermanagement"
+  endpoint: "/graphql"
+
+server:
+  port : 8081
+
+spring:
+  data:
+    mongodb:
+      port: 27017
+      database: GraphqlDemoShopDb
+      host: localhost
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+
+        security:
+          web:
+            FilterChainProxy=DEBUG:
