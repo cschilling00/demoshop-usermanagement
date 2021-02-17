@@ -34,7 +34,7 @@ class SpringSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Bean
     fun authenticationTokenFilter(): JwtTokenFilter? {
-        val filter = JwtTokenFilter("/**")
+        val filter = JwtTokenFilter("/getUser")
         filter.setAuthenticationManager(authenticationManager())
         filter.setAuthenticationSuccessHandler(JwtSuccessHandler())
         return filter
@@ -42,16 +42,15 @@ class SpringSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
-//        http.authorizeRequests().antMatchers("**").permitAll()
-//        http.csrf().disable()
-//                .authorizeRequests().antMatchers("/login").permitAll().and()
-//                .authorizeRequests().antMatchers("/getUser").hasAuthority("user").and()
-//                .authorizeRequests().antMatchers("/graphql").hasAuthority("user").and()
-//                .exceptionHandling().authenticationEntryPoint(entryPoint)
-//                .and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//
-//        http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter::class.java);
-//        http.headers().cacheControl()
+        http.csrf().disable()
+                //.authorizeRequests().antMatchers("**/graphql/**").permitAll().and()
+                .authorizeRequests().antMatchers("/login").permitAll().and()
+                .authorizeRequests().antMatchers("/getUser").hasAuthority("user").and()
+                .exceptionHandling().authenticationEntryPoint(entryPoint)
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+        http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter::class.java);
+        http.headers().cacheControl()
     }
 }

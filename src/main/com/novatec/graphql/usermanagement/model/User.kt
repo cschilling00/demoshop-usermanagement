@@ -14,8 +14,3 @@ data class User(
         val email: String?,
         val shippingAdress: List<String?>?,
         val orders: List<String?>?)
-
-
-enum class Role {
-        ROLE_USER, ROLE_ADMIN
-}

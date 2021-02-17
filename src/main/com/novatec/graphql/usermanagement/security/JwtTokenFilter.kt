@@ -16,7 +16,7 @@ class JwtTokenFilter(url: String) : AbstractAuthenticationProcessingFilter(url) 
     override fun attemptAuthentication(httpServletRequest: HttpServletRequest, httpServletResponse: HttpServletResponse): Authentication {
         val header = httpServletRequest.getHeader("Authorisation")
         if (header == null || !header.startsWith("Token ")) {
-            throw RuntimeException("JWT Token is missing")
+            throw RuntimeException("JWT Token is missing") // TODO: add catch for this error and return bad request response
         }
         val authenticationToken = header.substring(6)
         val token = JwtToken(authenticationToken)

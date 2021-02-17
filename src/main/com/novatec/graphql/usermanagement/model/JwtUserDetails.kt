@@ -28,7 +28,7 @@ class JwtUserDetails(private val userName: String, private val password: String,
     }
 
     override fun isCredentialsNonExpired(): Boolean {
-        return false
+        return true
     }
 
     override fun isEnabled(): Boolean {

@@ -21,8 +21,6 @@ class UserMutation : Mutation {
     }
 
     fun deleteUser(userId: String): String? {
-        var deletedUser = userService.getUserById(userId)
-        userService.deleteUser(userId)
-        return ("User deleted: $deletedUser")
+        return userService.deleteUser(userId)
     }
 }

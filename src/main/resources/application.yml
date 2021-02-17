@@ -17,7 +17,4 @@ logging:
     org:
       springframework:
         web: DEBUG
-
-        security:
-          web:
-            FilterChainProxy=DEBUG:
+        security: DEBUG

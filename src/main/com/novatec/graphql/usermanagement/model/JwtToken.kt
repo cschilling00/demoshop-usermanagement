@@ -13,7 +13,7 @@ class JwtToken(var token: String) : UsernamePasswordAuthenticationToken(null, nu
         return null
     }
 }
-
+//TODO: Delete
 data class authRequest(
     private  var username: String,
     private  var password: String){
