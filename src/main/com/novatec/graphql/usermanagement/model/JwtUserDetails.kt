@@ -1,14 +1,13 @@
 package src.main.com.novatec.graphql.usermanagement.model
 
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-class JwtUserDetails(private val userName: String, private val password: String, private val token: String, grantedAuthorities: List<GrantedAuthority>) : UserDetails {
+data class JwtUserDetails(private val username: String, private val password: String, val authorities: List<SimpleGrantedAuthority>, val token: String) : UserDetails{
 
-    private val authorities: Collection<GrantedAuthority>
-
-    override fun getAuthorities(): Collection<GrantedAuthority> {
-        return authorities
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+        return authorities.toMutableList()
     }
 
     override fun getPassword(): String {
@@ -16,7 +15,7 @@ class JwtUserDetails(private val userName: String, private val password: String,
     }
 
     override fun getUsername(): String {
-        return userName
+        return username
     }
 
     override fun isAccountNonExpired(): Boolean {
@@ -33,9 +32,5 @@ class JwtUserDetails(private val userName: String, private val password: String,
 
     override fun isEnabled(): Boolean {
         return true
-    }
-
-    init {
-        authorities = grantedAuthorities
     }
 }

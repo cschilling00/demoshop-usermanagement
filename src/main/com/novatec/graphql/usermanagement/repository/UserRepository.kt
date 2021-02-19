@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface UserRepository : MongoRepository<User?, String?> {
     override fun findAll(): List<User?>
-    fun findByUsername(name: String): User
+    fun findByUsername(name: String): User?
 }
