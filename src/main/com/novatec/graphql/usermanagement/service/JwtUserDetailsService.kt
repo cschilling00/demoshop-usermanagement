@@ -39,7 +39,7 @@ class JwtUserDetailsService(
             .withIssuedAt(Date.from(now))
             .withExpiresAt(Date.from(expiry))
             .withSubject(user.username)
-            .sign(algorithm)
+            .sign(algorithm).also { println("gettoken : " + it) }
     }
 
     private fun getUserDetails(user: User?, token: String): JwtUserDetails {
@@ -53,9 +53,10 @@ class JwtUserDetailsService(
     }
 
     fun loadUserByToken(token: String): JwtUserDetails {
+        println("Token in loadUserbyToken: " + token)
         return getDecodedToken(token)
-            ?.let { it.subject }
-            ?.let { userRepository.findByUsername(it) }
+            ?.let { it.subject }.also { println("decoded token: " + it) }
+            ?.let { userRepository.findByUsername(it) }.also { println("user by username: " + it) }
             ?.let { getUserDetails(it, token) } ?: throw Error()
     }
 

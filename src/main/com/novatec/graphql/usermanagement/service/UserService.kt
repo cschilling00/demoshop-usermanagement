@@ -1,22 +1,17 @@
 package src.main.com.novatec.graphql.usermanagement.service
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import src.main.com.novatec.graphql.usermanagement.model.User
 import src.main.com.novatec.graphql.usermanagement.repository.UserRepository
-import src.main.com.novatec.graphql.usermanagement.security.SecurityProperties
 import java.lang.Exception
-import java.time.Instant
-import java.util.*
 import kotlin.NoSuchElementException
 
 @Service
 class UserService(
-    val securityProperties: SecurityProperties,
     val userRepository: UserRepository,
-    val algorithm: Algorithm
+    val passwordEncoder: PasswordEncoder
 ) {
 
     fun getUserById(id: String): User? {
@@ -41,6 +36,8 @@ class UserService(
     }
 
     fun createUser(user: User): User {
+        if (userRepository.findByUsername(user.username) != null) throw Exception("The given username ${user.username} already exists")
+        user.password = passwordEncoder.encode(user.password)
         return userRepository.save(user)
     }
 
@@ -57,18 +54,5 @@ class UserService(
             .let { it.name }
             .let { userRepository.findByUsername(it) }
             ?.let { return it } ?: throw Exception("User with matching username and password not found")
-    }
-
-    fun createToken(user: User): String {
-        val now = Instant.now()
-        val expiry = Instant.now().plus(securityProperties.tokenExpiration)
-        println("creating Token")
-        return JWT
-            .create()
-            .withIssuer(securityProperties.tokenIssuer)
-            .withIssuedAt(Date.from(now))
-            .withExpiresAt(Date.from(expiry))
-            .withSubject(user.email)
-            .sign(algorithm)
     }
 }

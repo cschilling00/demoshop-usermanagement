@@ -9,12 +9,12 @@ import src.main.com.novatec.graphql.usermanagement.service.UserService
 @Component
 class UserQuery(val userService: UserService) : GraphQLQueryResolver {
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('user')")
     fun getUsers(): List<User?> {
         return userService.getUser()
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('user')")
     fun getUserById(id: String): User? {
         return userService.getUserById(id)
     }

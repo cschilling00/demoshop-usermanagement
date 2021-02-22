@@ -7,25 +7,27 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import src.main.com.novatec.graphql.usermanagement.model.User
+import src.main.com.novatec.graphql.usermanagement.service.JwtUserDetailsService
 import src.main.com.novatec.graphql.usermanagement.service.UserService
 
 @Component
 class UserMutation(
     val userService: UserService,
-    val authenticationProvider: AuthenticationProvider
+    val authenticationProvider: AuthenticationProvider,
+    val jwtUserDetailsService: JwtUserDetailsService
 ) : GraphQLMutationResolver {
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('user')")
     fun editUser(user: User?): User? {
         return user?.let { userService.updateUser(it) }
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('user')")
     fun createUser(user: User?): User? {
         return user?.let { userService.createUser(it) }
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('user')")
     fun deleteUser(userId: String): String? {
         return userService.deleteUser(userId)
     }
@@ -36,6 +38,6 @@ class UserMutation(
         val credentials = UsernamePasswordAuthenticationToken(username, password)
                 .also { println("credentials: " + it) }
         SecurityContextHolder.getContext().authentication = authenticationProvider.authenticate(credentials).also { println("auth: " + it) }
-        return userService.createToken(userService.getCurrentUser())
+        return jwtUserDetailsService.getToken(userService.getCurrentUser())
     }
 }

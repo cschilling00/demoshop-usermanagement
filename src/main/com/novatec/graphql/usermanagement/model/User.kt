@@ -5,12 +5,12 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
 data class User(
-    @Id
+        @Id
     val id: String,
-    val username: String,
-    val password: String,
-    val role: String,
-    val email: String?,
-    val shippingAdress: List<String?>?,
-    val orderIds: List<String?>?
+        val username: String,
+        var password: String,
+        val role: String,
+        val email: String?,
+        val shippingAdress: List<String?>?,
+        val orderIds: List<String?>?
 )
