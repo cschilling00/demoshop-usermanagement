@@ -14,16 +14,10 @@
 	<properties>
 		<java.version>11</java.version>
 		<kotlin.version>1.4.21</kotlin.version>
-		<graphql-kotlin.version>4.0.0-alpha.0</graphql-kotlin.version>
 		<project.basedir>src/main</project.basedir>
 		<test.dir>src/test/</test.dir>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>com.expediagroup</groupId>
-			<artifactId>graphql-kotlin-spring-server</artifactId>
-			<version>${graphql-kotlin.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -73,6 +67,16 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-spring-boot-starter</artifactId>
+			<version>5.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>playground-spring-boot-starter</artifactId>
+			<version>5.10.0</version>
 		</dependency>
     </dependencies>
 

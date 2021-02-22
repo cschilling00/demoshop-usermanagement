@@ -7,7 +7,7 @@ import src.main.com.novatec.graphql.usermanagement.model.JwtUserDetails
 class JWTPreAuthenticationToken : PreAuthenticatedAuthenticationToken {
 
     constructor(principal: JwtUserDetails, details: WebAuthenticationDetails ) :
-            super(principal,details,principal.getAuthorities()) {
+            super(principal, details, principal.getAuthorities()) {
 
     }
 

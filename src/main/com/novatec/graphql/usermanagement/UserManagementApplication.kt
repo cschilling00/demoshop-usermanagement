@@ -1,6 +1,5 @@
 package src.main.com.novatec.graphql.usermanagement
 
-import org.bson.types.ObjectId
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -11,7 +10,7 @@ import src.main.com.novatec.graphql.usermanagement.repository.UserRepository
 class UserManagementApplication(var userRepository: UserRepository) : CommandLineRunner {
 	override fun run(vararg args: String?) {
 		userRepository.deleteAll()
-		userRepository.save(User("602a74164f9ff6408aad5da6", "user", "password", "user", "", listOf("Reuteäckerstr. 70", "88433 Ingerkingen"), listOf("")))
+		userRepository.save(User("602a74164f9ff6408aad5da6", "username", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen"), listOf("")))
 		println(userRepository.findAll())
 	}
 }
@@ -19,6 +18,5 @@ class UserManagementApplication(var userRepository: UserRepository) : CommandLin
 fun main(args: Array<String>) {
 
 	runApplication<UserManagementApplication>(*args) {}
-
 
 }

@@ -1,6 +1,6 @@
 package src.main.com.novatec.graphql.usermanagement.controller
 
-import com.expediagroup.graphql.spring.operations.Mutation
+import com.coxautodev.graphql.tools.GraphQLMutationResolver
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -13,30 +13,29 @@ import src.main.com.novatec.graphql.usermanagement.service.UserService
 class UserMutation(
     val userService: UserService,
     val authenticationProvider: AuthenticationProvider
-) : Mutation {
+) : GraphQLMutationResolver {
 
+    @PreAuthorize("isAuthenticated()")
     fun editUser(user: User?): User? {
         return user?.let { userService.updateUser(it) }
     }
 
+    @PreAuthorize("isAuthenticated()")
     fun createUser(user: User?): User? {
         return user?.let { userService.createUser(it) }
     }
 
+    @PreAuthorize("isAuthenticated()")
     fun deleteUser(userId: String): String? {
         return userService.deleteUser(userId)
     }
 
     @PreAuthorize("isAnonymous()")
-    fun login(username: String, password: String): User {
-        val credentials = UsernamePasswordAuthenticationToken(username, password).also { println("credentials: " + it) }
-        SecurityContextHolder.getContext().authentication = authenticationProvider.authenticate(credentials)
-            return userService.getCurrentUser()
+    fun login(username: String, password: String): String {
+        println("provided credentials: " + username + password)
+        val credentials = UsernamePasswordAuthenticationToken(username, password)
+                .also { println("credentials: " + it) }
+        SecurityContextHolder.getContext().authentication = authenticationProvider.authenticate(credentials).also { println("auth: " + it) }
+        return userService.createToken(userService.getCurrentUser())
     }
-
-    @PreAuthorize("isAuthenticated()")
-    fun getToken(user: User): String {
-        return userService.createToken(user)
-    }
-
 }

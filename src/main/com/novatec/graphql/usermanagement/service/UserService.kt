@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service
 import src.main.com.novatec.graphql.usermanagement.model.User
 import src.main.com.novatec.graphql.usermanagement.repository.UserRepository
 import src.main.com.novatec.graphql.usermanagement.security.SecurityProperties
+import java.lang.Exception
 import java.time.Instant
 import java.util.*
 import kotlin.NoSuchElementException
@@ -55,12 +56,13 @@ class UserService(
         SecurityContextHolder.getContext().authentication
             .let { it.name }
             .let { userRepository.findByUsername(it) }
-            ?.let { return it } ?: throw Error()
+            ?.let { return it } ?: throw Exception("User with matching username and password not found")
     }
 
     fun createToken(user: User): String {
         val now = Instant.now()
         val expiry = Instant.now().plus(securityProperties.tokenExpiration)
+        println("creating Token")
         return JWT
             .create()
             .withIssuer(securityProperties.tokenIssuer)

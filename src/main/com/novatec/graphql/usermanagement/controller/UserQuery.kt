@@ -1,23 +1,20 @@
 package src.main.com.novatec.graphql.usermanagement.controller
 
-
+import com.coxautodev.graphql.tools.GraphQLQueryResolver
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.stereotype.Component
 import src.main.com.novatec.graphql.usermanagement.model.User
 import src.main.com.novatec.graphql.usermanagement.service.UserService
-import com.expediagroup.graphql.spring.operations.Query
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
-
 
 @Component
-class UserQuery : Query {
+class UserQuery(val userService: UserService) : GraphQLQueryResolver {
 
-    @Autowired
-    private lateinit var userService: UserService
-
-    fun getUser(): List<User?> {
+    @PreAuthorize("isAuthenticated()")
+    fun getUsers(): List<User?> {
         return userService.getUser()
     }
 
+    @PreAuthorize("isAuthenticated()")
     fun getUserById(id: String): User? {
         return userService.getUserById(id)
     }
