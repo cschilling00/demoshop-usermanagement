@@ -1,7 +1,3 @@
-graphql:
-  packages: "src.main.com.novatec.graphql.usermanagement"
-  endpoint: "/graphql"
-
 server:
   port : 8081
 
@@ -14,6 +10,8 @@ spring:
 
 logging:
   level:
+    graphql:
+      GraphQL: DEBUG
     org:
       springframework:
         web: DEBUG

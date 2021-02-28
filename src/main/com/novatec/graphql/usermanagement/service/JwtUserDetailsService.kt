@@ -26,7 +26,7 @@ class JwtUserDetailsService(
     override fun loadUserByUsername(username: String): JwtUserDetails {
         return userRepository
             .findByUsername(username)
-            ?.let { getUserDetails(it, getToken(it)) } //
+            ?.let { getUserDetails(it, getToken(it)) }
             ?: throw Exception("Username or password didn't match")
     }
 
@@ -57,7 +57,7 @@ class JwtUserDetailsService(
         return getDecodedToken(token)
             ?.let { it.subject }.also { println("decoded token: " + it) }
             ?.let { userRepository.findByUsername(it) }.also { println("user by username: " + it) }
-            ?.let { getUserDetails(it, token) } ?: throw Error()
+            ?.let { getUserDetails(it, token) } ?: throw Error("Error in validating token")
     }
 
     private fun getDecodedToken(token: String): DecodedJWT? {

@@ -1,20 +1,25 @@
 package src.main.com.novatec.graphql.usermanagement.controller
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver
+import graphql.GraphQLContext
+import graphql.schema.DataFetchingEnvironment
+import graphql.servlet.context.GraphQLServletContext
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
+import src.main.com.novatec.graphql.usermanagement.model.Token
 import src.main.com.novatec.graphql.usermanagement.model.User
 import src.main.com.novatec.graphql.usermanagement.service.JwtUserDetailsService
 import src.main.com.novatec.graphql.usermanagement.service.UserService
+import javax.servlet.http.HttpServletRequest
 
 @Component
 class UserMutation(
-    val userService: UserService,
-    val authenticationProvider: AuthenticationProvider,
-    val jwtUserDetailsService: JwtUserDetailsService
+        val userService: UserService
 ) : GraphQLMutationResolver {
 
     @PreAuthorize("hasAuthority('user')")
@@ -22,7 +27,7 @@ class UserMutation(
         return user?.let { userService.updateUser(it) }
     }
 
-    @PreAuthorize("hasAuthority('user')")
+    @PreAuthorize("isAnonymous()")
     fun createUser(user: User?): User? {
         return user?.let { userService.createUser(it) }
     }
@@ -32,12 +37,15 @@ class UserMutation(
         return userService.deleteUser(userId)
     }
 
-    @PreAuthorize("isAnonymous()")
-    fun login(username: String, password: String): String {
-        println("provided credentials: " + username + password)
-        val credentials = UsernamePasswordAuthenticationToken(username, password)
-                .also { println("credentials: " + it) }
-        SecurityContextHolder.getContext().authentication = authenticationProvider.authenticate(credentials).also { println("auth: " + it) }
-        return jwtUserDetailsService.getToken(userService.getCurrentUser())
+
+
+    @PreAuthorize("hasAuthority('user')")
+    fun verifyToken(env: DataFetchingEnvironment): String? {
+        val request = env.getContext<GraphQLServletContext>().httpServletRequest
+        val token = request.getHeader("Authorization")
+                .split("Bearer ")
+                .last()
+        println("verifyToken: " + token)
+        return userService.verifyToken(token).toString()
     }
 }

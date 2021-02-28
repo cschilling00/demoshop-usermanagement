@@ -1,17 +1,22 @@
 package src.main.com.novatec.graphql.usermanagement.service
 
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Service
 import src.main.com.novatec.graphql.usermanagement.model.User
 import src.main.com.novatec.graphql.usermanagement.repository.UserRepository
+import src.main.com.novatec.graphql.usermanagement.security.JWTPreAuthenticationToken
 import java.lang.Exception
 import kotlin.NoSuchElementException
 
 @Service
 class UserService(
     val userRepository: UserRepository,
-    val passwordEncoder: PasswordEncoder
+    val passwordEncoder: PasswordEncoder,
+    val jwtUserDetailsService: JwtUserDetailsService
 ) {
 
     fun getUserById(id: String): User? {
@@ -25,11 +30,11 @@ class UserService(
     }
 
     fun updateUser(user: User): User? {
-        if (user.id == null) {
+        if (user.id == "") {
             throw IllegalArgumentException("No Id given")
         } else {
             userRepository.findById(user.id).orElseThrow {
-                throw NoSuchElementException("User with id ´$user.id´ not found")
+                throw NoSuchElementException("User with id ´${user.id}´ not found")
             }
             return userRepository.save(user)
         }
@@ -54,5 +59,10 @@ class UserService(
             .let { it.name }
             .let { userRepository.findByUsername(it) }
             ?.let { return it } ?: throw Exception("User with matching username and password not found")
+    }
+    fun verifyToken(token: String): Authentication? {
+
+        return SecurityContextHolder.getContext().authentication
+        ?.also { println("context77: "+SecurityContextHolder.getContext().authentication)  }
     }
 }

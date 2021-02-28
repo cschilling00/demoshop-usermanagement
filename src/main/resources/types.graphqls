@@ -2,7 +2,7 @@ type Mutation {
     createUser(user: UserInput): User
     deleteUser(id: String!): String
     editUser(user: UserInput): User
-    login(username: String!, password: String!): String!
+    verifyToken : String
 }
 
 type User {
@@ -25,7 +25,18 @@ input UserInput {
     orderIds: [String]
 }
 
+input LoginInput {
+    username: String!
+    password: String!
+}
+
 type Query {
     getUsers: [User]!
     getUserById(id: String!): User
+    login(credentials: LoginInput): Token
+
+}
+
+type Token {
+    token: String!
 }

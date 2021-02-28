@@ -20,6 +20,7 @@ class JwtFilter(
         getToken(request)
             .also { println("Token: " + it) }
             ?.let { jwtUserDetailsService.loadUserByToken(it) }
+
                 ?.let { jwtUserDetails -> JWTPreAuthenticationToken(
                         jwtUserDetails, WebAuthenticationDetailsSource().buildDetails(request)) }
                 ?.also { println("context: "+ SecurityContextHolder.getContext().authentication)    }
