@@ -11,6 +11,7 @@ class UserManagementApplication(var userRepository: UserRepository) : CommandLin
 	override fun run(vararg args: String?) {
 		userRepository.deleteAll()
 		userRepository.save(User("602a74164f9ff6408aad5da6", "username", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen"), listOf("")))
+		userRepository.save(User("602a74164f9ff6408aad5da7", "admin", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user,admin", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen"), listOf("")))
 		println(userRepository.findAll())
 	}
 }

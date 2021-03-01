@@ -4,8 +4,8 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
+import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import src.main.com.novatec.graphql.usermanagement.model.JwtUserDetails
@@ -26,11 +26,11 @@ class JwtUserDetailsService(
     override fun loadUserByUsername(username: String): JwtUserDetails {
         return userRepository
             .findByUsername(username)
-            ?.let { getUserDetails(it, getToken(it)) }
+            ?.let { getUserDetails(it, createToken(it)) }
             ?: throw Exception("Username or password didn't match")
     }
 
-    fun getToken(user: User): String {
+    fun createToken(user: User): String {
         val now = Instant.now()
         val expiry = Instant.now().plus(securityProperties.tokenExpiration)
         return JWT
@@ -47,20 +47,27 @@ class JwtUserDetailsService(
         return JwtUserDetails(
             user.username,
             user.password,
-            listOf(user.role).map { SimpleGrantedAuthority(it) },
+            AuthorityUtils.commaSeparatedStringToAuthorityList(user.role) as List<SimpleGrantedAuthority>,
             token
         )
     }
 
-    fun loadUserByToken(token: String): JwtUserDetails {
+    fun loadUserByToken(token: String): JwtUserDetails? {
         println("Token in loadUserbyToken: " + token)
         return getDecodedToken(token)
-            ?.let { it.subject }.also { println("decoded token: " + it) }
-            ?.let { userRepository.findByUsername(it) }.also { println("user by username: " + it) }
-            ?.let { getUserDetails(it, token) } ?: throw Error("Error in validating token")
+                ?.let { it.subject }.also { println("decoded token: " + it) }
+                ?.let { userRepository.findByUsername(it) }.also { println("user by username: " + it) }
+                ?.let { getUserDetails(it, token) } ?: throw Error("Error in validating token")
+
+
     }
 
     private fun getDecodedToken(token: String): DecodedJWT? {
-        return verifier.verify(token)
+        println("beforedecode: " + token)
+        try{
+            return verifier.verify(token)
+        }catch (e: Exception){
+            return null
+        }
     }
 }

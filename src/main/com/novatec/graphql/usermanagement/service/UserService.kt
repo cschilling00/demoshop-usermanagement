@@ -60,9 +60,5 @@ class UserService(
             .let { userRepository.findByUsername(it) }
             ?.let { return it } ?: throw Exception("User with matching username and password not found")
     }
-    fun verifyToken(token: String): Authentication? {
 
-        return SecurityContextHolder.getContext().authentication
-        ?.also { println("context77: "+SecurityContextHolder.getContext().authentication)  }
-    }
 }
