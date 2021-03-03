@@ -33,7 +33,7 @@ class UserQuery(val userService: UserService,
                 .also { println("credentials: " + it) }
         SecurityContextHolder.getContext().authentication = authenticationProvider.authenticate(credentials)
                 .also { println("auth: " + it) }
-        return Token(jwtUserDetailsService.createToken(userService.getCurrentUser()))
+        return Token(jwtUserDetailsService.createToken(userService.getCurrentUser()), userService.getCurrentUser().id)
 
     }
 

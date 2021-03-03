@@ -11,6 +11,5 @@ data class User(
         var password: String,
         val role: String,
         val email: String?,
-        val shippingAdress: List<String?>?,
-        val orderIds: List<String?>?
+        val shippingAdress: List<String?>?
 )

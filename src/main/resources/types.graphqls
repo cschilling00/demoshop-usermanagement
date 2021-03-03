@@ -12,7 +12,6 @@ type User {
     role: String!
     email: String
     shippingAdress: [String]
-    orderIds: [String]
 }
 
 input UserInput {
@@ -22,7 +21,6 @@ input UserInput {
     role: String!
     email: String
     shippingAdress: [String]
-    orderIds: [String]
 }
 
 input LoginInput {
@@ -34,9 +32,9 @@ type Query {
     getUsers: [User]!
     getUserById(id: String!): User
     login(credentials: LoginInput): Token
-
 }
 
 type Token {
     token: String!
+    userId: String!
 }
