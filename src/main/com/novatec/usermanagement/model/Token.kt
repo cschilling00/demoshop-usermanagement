@@ -1,4 +1,4 @@
-package src.main.com.novatec.graphql.usermanagement.model
+package src.main.com.novatec.usermanagement.model
 
 data class Token(val token: String, val userId: String) {
 }

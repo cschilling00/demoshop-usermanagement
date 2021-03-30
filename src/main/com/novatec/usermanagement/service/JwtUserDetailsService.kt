@@ -1,4 +1,4 @@
-package src.main.com.novatec.graphql.usermanagement.service
+package src.main.com.novatec.usermanagement.service
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
@@ -8,19 +8,19 @@ import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
-import src.main.com.novatec.graphql.usermanagement.model.JwtUserDetails
-import src.main.com.novatec.graphql.usermanagement.model.User
-import src.main.com.novatec.graphql.usermanagement.repository.UserRepository
-import src.main.com.novatec.graphql.usermanagement.security.SecurityProperties
+import src.main.com.novatec.usermanagement.model.JwtUserDetails
+import src.main.com.novatec.usermanagement.model.User
+import src.main.com.novatec.usermanagement.repository.UserRepository
+import src.main.com.novatec.usermanagement.security.SecurityProperties
 import java.time.Instant
 import java.util.*
 
 @Service
 class JwtUserDetailsService(
-    val verifier: JWTVerifier,
-    val algorithm: Algorithm,
-    val userRepository: UserRepository,
-    val securityProperties: SecurityProperties
+        val verifier: JWTVerifier,
+        val algorithm: Algorithm,
+        val userRepository: UserRepository,
+        val securityProperties: SecurityProperties
 ) : UserDetailsService {
 
     override fun loadUserByUsername(username: String): JwtUserDetails {

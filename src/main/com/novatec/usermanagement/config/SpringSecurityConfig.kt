@@ -1,4 +1,4 @@
-package src.main.com.novatec.graphql.usermanagement.config
+package src.main.com.novatec.usermanagement.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter
-import src.main.com.novatec.graphql.usermanagement.security.JwtFilter
+import src.main.com.novatec.usermanagement.security.JwtFilter
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)

@@ -1,4 +1,4 @@
-package src.main.com.novatec.graphql.usermanagement.security
+package src.main.com.novatec.usermanagement.security
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component

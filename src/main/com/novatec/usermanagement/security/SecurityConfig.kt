@@ -1,4 +1,4 @@
-package src.main.com.novatec.graphql.usermanagement.security
+package src.main.com.novatec.usermanagement.security
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
@@ -10,7 +10,7 @@ import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-import src.main.com.novatec.graphql.usermanagement.service.JwtUserDetailsService
+import src.main.com.novatec.usermanagement.service.JwtUserDetailsService
 
 @Configuration
 class SecurityConfig {

@@ -1,4 +1,4 @@
-package src.main.com.novatec.graphql.usermanagement.controller
+package src.main.com.novatec.usermanagement.controller
 
 import com.oembedler.moon.graphql.boot.error.ThrowableGraphQLError
 import org.springframework.context.annotation.Bean

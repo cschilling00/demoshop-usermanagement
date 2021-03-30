@@ -1,4 +1,4 @@
-package src.main.com.novatec.graphql.usermanagement.controller
+package src.main.com.novatec.usermanagement.controller
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -7,8 +7,8 @@ import graphql.servlet.context.GraphQLServletContext
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
-import src.main.com.novatec.graphql.usermanagement.model.User
-import src.main.com.novatec.graphql.usermanagement.service.UserService
+import src.main.com.novatec.usermanagement.model.User
+import src.main.com.novatec.usermanagement.service.UserService
 import java.lang.Error
 
 @Component

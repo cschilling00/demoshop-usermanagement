@@ -1,10 +1,10 @@
-package src.main.com.novatec.graphql.usermanagement.security
+package src.main.com.novatec.usermanagement.security
 
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-import src.main.com.novatec.graphql.usermanagement.service.JwtUserDetailsService
+import src.main.com.novatec.usermanagement.service.JwtUserDetailsService
 import java.lang.Error
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
