@@ -1,6 +1,6 @@
-package src.main.com.novatec.graphql.usermanagement.repository
+package src.main.com.novatec.usermanagement.repository
 
-import src.main.com.novatec.graphql.usermanagement.model.User
+import src.main.com.novatec.usermanagement.model.User
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 

@@ -1,8 +1,8 @@
-package src.main.com.novatec.graphql.usermanagement.security
+package src.main.com.novatec.usermanagement.security
 
 import org.springframework.security.web.authentication.WebAuthenticationDetails
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
-import src.main.com.novatec.graphql.usermanagement.model.JwtUserDetails
+import src.main.com.novatec.usermanagement.model.JwtUserDetails
 
 class JWTPreAuthenticationToken : PreAuthenticatedAuthenticationToken {
 

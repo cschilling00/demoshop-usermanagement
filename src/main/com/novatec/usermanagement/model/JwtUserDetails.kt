@@ -1,4 +1,4 @@
-package src.main.com.novatec.graphql.usermanagement.model
+package src.main.com.novatec.usermanagement.model
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority

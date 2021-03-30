@@ -1,4 +1,4 @@
-package src.main.com.novatec.graphql.usermanagement.service
+package src.main.com.novatec.usermanagement.service
 
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
@@ -6,17 +6,17 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Service
-import src.main.com.novatec.graphql.usermanagement.model.User
-import src.main.com.novatec.graphql.usermanagement.repository.UserRepository
-import src.main.com.novatec.graphql.usermanagement.security.JWTPreAuthenticationToken
+import src.main.com.novatec.usermanagement.model.User
+import src.main.com.novatec.usermanagement.repository.UserRepository
+import src.main.com.novatec.usermanagement.security.JWTPreAuthenticationToken
 import java.lang.Exception
 import kotlin.NoSuchElementException
 
 @Service
 class UserService(
-    val userRepository: UserRepository,
-    val passwordEncoder: PasswordEncoder,
-    val jwtUserDetailsService: JwtUserDetailsService
+        val userRepository: UserRepository,
+        val passwordEncoder: PasswordEncoder,
+        val jwtUserDetailsService: JwtUserDetailsService
 ) {
 
     fun getUserById(id: String): User? {

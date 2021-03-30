@@ -1,10 +1,10 @@
-package src.main.com.novatec.graphql.usermanagement
+package src.main.com.novatec.usermanagement
 
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import src.main.com.novatec.graphql.usermanagement.model.User
-import src.main.com.novatec.graphql.usermanagement.repository.UserRepository
+import src.main.com.novatec.usermanagement.model.User
+import src.main.com.novatec.usermanagement.repository.UserRepository
 
 @SpringBootApplication
 class UserManagementApplication(var userRepository: UserRepository) : CommandLineRunner {
