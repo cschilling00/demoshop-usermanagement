@@ -51,6 +51,7 @@ class UserController(
     @GetMapping("/authorities")
     fun getAuthorities(): String? {
         return try {
+            println(SecurityContextHolder.getContext().authentication)
             SecurityContextHolder.getContext().authentication.authorities.joinToString { it -> it.authority }
         } catch (e: Error) {
             "error"

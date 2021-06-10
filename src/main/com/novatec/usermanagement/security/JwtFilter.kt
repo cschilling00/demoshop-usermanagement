@@ -19,6 +19,7 @@ class JwtFilter(
     @Throws
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         try{
+            println(request.getHeader("Authorization"))
             getToken(request)
                     .also { println("Token: " + it) }
                     ?.let { jwtUserDetailsService.loadUserByToken(it) }
