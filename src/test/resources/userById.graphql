@@ -1,0 +1,10 @@
+query{
+    getUserById(id: "602a74164f9ff6408aad5da6"){
+        id
+        username
+        password
+        role
+        email
+        shippingAdress
+    }
+}

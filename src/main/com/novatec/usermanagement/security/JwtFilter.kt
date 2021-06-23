@@ -5,6 +5,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import src.main.com.novatec.usermanagement.service.JwtUserDetailsService
+import src.main.com.novatec.usermanagement.security.JWTPreAuthenticationToken
 import java.lang.Error
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
@@ -24,7 +25,9 @@ class JwtFilter(
                     ?.let { jwtUserDetailsService.loadUserByToken(it) }
 
                     ?.let { jwtUserDetails -> JWTPreAuthenticationToken(
-                            jwtUserDetails, WebAuthenticationDetailsSource().buildDetails(request)) }
+                            jwtUserDetails, WebAuthenticationDetailsSource().buildDetails(request)
+                        )
+                    }
                     ?.also { println("context: "+ SecurityContextHolder.getContext().authentication)    }
                     ?.let { SecurityContextHolder.getContext().authentication = it}
                     ?.also { println("context: "+SecurityContextHolder.getContext().authentication)    }
