@@ -36,7 +36,7 @@ class UserMutation(
         try{
             return SecurityContextHolder.getContext().authentication.authorities.joinToString { it -> it.authority}
         }catch (e: Error){
-            return "error"
+            return "Couldn't check Authorities"
         }
 
     }

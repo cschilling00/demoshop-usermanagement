@@ -1,0 +1,5 @@
+query{
+    login(credentials: {username:"user", password: "password"}){
+        userId
+    }
+}
