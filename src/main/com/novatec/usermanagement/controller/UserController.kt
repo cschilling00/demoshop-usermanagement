@@ -6,57 +6,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import src.main.com.novatec.usermanagement.model.Token
-import src.main.com.novatec.usermanagement.model.User
 import src.main.com.novatec.usermanagement.service.JwtUserDetailsService
 import src.main.com.novatec.usermanagement.service.UserService
 
 @RestController
 @RequestMapping("users")
-class UserController(
-        val userService: UserService,
-        val authenticationProvider: AuthenticationProvider,
-        val jwtUserDetailsService: JwtUserDetailsService
-) {
-
-    @PreAuthorize("hasAuthority('user')")
-    @GetMapping
-    fun getUsers(): List<User?> {
-        return userService.getUser()
-    }
-
-    @PreAuthorize("hasAuthority('user')")
-    @GetMapping("/{id}")
-    fun getUserById(@PathVariable id: String): User? {
-        return userService.getUserById(id)
-    }
-    @PostMapping
-    @PreAuthorize("isAnonymous()")
-    fun createUser(@RequestBody user: User?): User? {
-        return user?.let { userService.createUser(it) }
-    }
-
-    @PreAuthorize("hasAuthority('user')")
-    @PatchMapping
-    fun editUser(@RequestBody user: User?): User? {
-        return user?.let { userService.updateUser(it) }
-    }
-
-    @PreAuthorize("hasAuthority('user')")
-    @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable id: String): String? {
-        return userService.deleteUser(id)
-    }
+class UserController(val userService: UserService,
+                    val authenticationProvider: AuthenticationProvider,
+                    val jwtUserDetailsService: JwtUserDetailsService) {
 
     @PreAuthorize("permitAll()")
     @GetMapping("/authorities")
     fun getAuthorities(): String? {
-        return try {
-            println(SecurityContextHolder.getContext().authentication)
-            SecurityContextHolder.getContext().authentication.authorities.joinToString { it -> it.authority }
-        } catch (e: Error) {
-            "error"
-        }
-
+        return SecurityContextHolder.getContext().authentication.authorities.joinToString { it -> it.authority }
     }
 
     @PreAuthorize("isAnonymous()")
@@ -68,7 +30,5 @@ class UserController(
         SecurityContextHolder.getContext().authentication = authenticationProvider.authenticate(authenticationToken)
             .also { println("auth: " + it) }
         return Token(jwtUserDetailsService.createToken(userService.getCurrentUser()), userService.getCurrentUser().id)
-
     }
-
 }
