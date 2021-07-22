@@ -16,15 +16,6 @@ class UserQuery(val userService: UserService,
                 val authenticationProvider: AuthenticationProvider,
                 val jwtUserDetailsService: JwtUserDetailsService) : GraphQLQueryResolver {
 
-    @PreAuthorize("hasAuthority('user')")
-    fun getUsers(): List<User?> {
-        return userService.getUser()
-    }
-
-    @PreAuthorize("hasAuthority('user')")
-    fun getUserById(id: String): User? {
-        return userService.getUserById(id)
-    }
 
     @PreAuthorize("isAnonymous()")
     fun login(credentials: Map<String, String>): Token {
@@ -35,6 +26,11 @@ class UserQuery(val userService: UserService,
                 .also { println("auth: " + it) }
         return Token(jwtUserDetailsService.createToken(userService.getCurrentUser()), userService.getCurrentUser().id)
 
+    }
+
+    @PreAuthorize("permitAll()")
+    fun getAuthorities(): String? {
+        return SecurityContextHolder.getContext().authentication.authorities.joinToString { it -> it.authority}
     }
 
 }

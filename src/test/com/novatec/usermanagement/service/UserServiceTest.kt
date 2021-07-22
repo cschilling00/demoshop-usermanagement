@@ -48,7 +48,7 @@ internal class UserServiceTest{
 
     @Test
     fun `should get current user from mocked Repository`() {
-        val user = User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen"))
+        val user = User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Friedrichstr. 70", "88433 Ingerkingen"))
 
         every { authentication.principal } returns JwtUserDetails("user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi",
             listOf("user") as List<SimpleGrantedAuthority>, "bearer token")
@@ -67,11 +67,11 @@ internal class UserServiceTest{
             listOf("user") as List<SimpleGrantedAuthority>, "bearer token")
         every { securityContext.authentication } returns authentication
         SecurityContextHolder.setContext(securityContext);
-//        every { SecurityContextHolder.getContext().authentication.name } returns "user11"
+        every { SecurityContextHolder.getContext().authentication.name } returns "user1"
         every { userRepository.findByUsername("user1") } returns null
-//
-//        val serviceResult = userService.getCurrentUser()
-        assertThrows(Exception::class.java, { userService.getCurrentUser() })
+
+        val exception = assertThrows(Exception::class.java, { userService.getCurrentUser() })
+        assertEquals("User with matching username and password not found", exception.localizedMessage);
     }
 
 }

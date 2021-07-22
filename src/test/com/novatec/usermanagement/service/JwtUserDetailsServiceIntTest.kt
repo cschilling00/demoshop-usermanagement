@@ -24,13 +24,13 @@ internal class JwtUserDetailsServiceIntTest(@Autowired val jwtUserDetailsService
     @BeforeAll
     fun loadRepository(){
         userRepository.deleteAll()
-        userRepository.save(User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen")))
-        userRepository.save(User("602a74164f9ff6408aad5da7", "admin", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user,admin", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen")))
+        userRepository.save(User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Friedrichstr. 70", "88433 Ingerkingen")))
+        userRepository.save(User("602a74164f9ff6408aad5da7", "admin", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user,admin", "cs00@test.de", listOf("Friedrichstr. 70", "88433 Ingerkingen")))
     }
 
     @Test
     fun `should load user by username`() {
-        val user = User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen"))
+        val user = User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Friedrichstr. 70", "88433 Ingerkingen"))
 
         val details = jwtUserDetailsService.loadUserByUsername("user")
         assertEquals(user.username, details.username)
@@ -45,7 +45,7 @@ internal class JwtUserDetailsServiceIntTest(@Autowired val jwtUserDetailsService
 
     @Test
     fun `should create token`() {
-        val user = User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen"))
+        val user = User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Friedrichstr. 70", "88433 Ingerkingen"))
 
         val details = jwtUserDetailsService.createToken(user)
         println("details: "+ details)
@@ -55,7 +55,7 @@ internal class JwtUserDetailsServiceIntTest(@Autowired val jwtUserDetailsService
 
     @Test
     fun `should load user by token`() {
-        val user = User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen"))
+        val user = User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Friedrichstr. 70", "88433 Ingerkingen"))
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaXNzIjoicHJvZHVjdHNlcnZpY2UtYXBpIiwiaWQiOiI2MDJhNzQxNjRmOWZmNjQwOGFhZDVkYTYiLCJpYXQiOjE2MjU2ODAzNjN9.TIm2oPpBxcMqVh8lfV_0aj-bcLgK84jn2HJ0wpchZRzWyu-DkozJr5QkPMwCPPBnnYjUQIM1C5c0WjBKgCEgAQ"
         val details = jwtUserDetailsService.loadUserByToken(token)
         assertEquals(user.username, details?.username)

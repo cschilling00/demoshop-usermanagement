@@ -2,10 +2,7 @@ package src.test.com.novatec.usermanagement.controller
 
 import com.auth0.jwt.JWTVerifier
 import com.graphql.spring.boot.test.GraphQLTestTemplate
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
 import org.skyscreamer.jsonassert.JSONAssert
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,7 +21,7 @@ import java.nio.charset.Charset
 class UserQueryTest(@Autowired val graphQLTestTemplate: GraphQLTestTemplate, @Autowired val userRepository: UserRepository
 ) {
 
-    @BeforeAll
+    @BeforeEach
     fun setHeaderForUser() {
         graphQLTestTemplate.addHeader(
             "Authorization",
@@ -35,27 +32,8 @@ class UserQueryTest(@Autowired val graphQLTestTemplate: GraphQLTestTemplate, @Au
     @BeforeAll
     fun loadRepository(){
         userRepository.deleteAll()
-        userRepository.save(User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen")))
-        userRepository.save(User("602a74164f9ff6408aad5da7", "admin", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user,admin", "cs00@test.de", listOf("Reuteäckerstr. 70", "88433 Ingerkingen")))
-    }
-
-    @Test
-    fun `should get all users`(){
-        var response = graphQLTestTemplate.postForResource("request/users.graphql")
-//        println("response: "+response.rawResponse.body.toString())
-        val expectedResponse = File("src/test/resources/response/usersRes.json").readText(Charset.defaultCharset())
-        Assertions.assertNotNull(response)
-        Assertions.assertTrue(response.isOk)
-        JSONAssert.assertEquals(expectedResponse, response.rawResponse.body, true)
-    }
-
-    @Test
-    fun `should get user with id 602a74164f9ff6408aad5da6`(){
-        var response = graphQLTestTemplate.postForResource("request/userById.graphql")
-        val expectedResponse = File("src/test/resources/response/userByIdRes.json").readText(Charset.defaultCharset())
-        Assertions.assertNotNull(response)
-        Assertions.assertTrue(response.isOk)
-        JSONAssert.assertEquals(expectedResponse, response.rawResponse.body, true)
+        userRepository.save(User("602a74164f9ff6408aad5da6", "user", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user", "cs00@test.de", listOf("Friedrichstr. 70", "88433 Ingerkingen")))
+        userRepository.save(User("602a74164f9ff6408aad5da7", "admin", "\$2y\$10\$mt1Ev5vlAx2/RZrlFicF1uQNJk3SCGiCYLn.exBGEHL09hwWJfUNi", "user,admin", "cs00@test.de", listOf("Friedrichstr. 70", "88433 Ingerkingen")))
     }
 
     @Test
@@ -63,6 +41,15 @@ class UserQueryTest(@Autowired val graphQLTestTemplate: GraphQLTestTemplate, @Au
         graphQLTestTemplate.clearHeaders()
         var response = graphQLTestTemplate.postForResource("request/login.graphql")
         val expectedResponse = File("src/test/resources/response/loginRes.json").readText(Charset.defaultCharset())
+        Assertions.assertNotNull(response)
+        Assertions.assertTrue(response.isOk)
+        JSONAssert.assertEquals(expectedResponse, response.rawResponse.body, true)
+    }
+
+    @Test
+    fun `should get authorities`(){
+        var response = graphQLTestTemplate.postForResource("request/authorities.graphql")
+        val expectedResponse = File("src/test/resources/response/authoritiesRes.json").readText(Charset.defaultCharset())
         Assertions.assertNotNull(response)
         Assertions.assertTrue(response.isOk)
         JSONAssert.assertEquals(expectedResponse, response.rawResponse.body, true)
